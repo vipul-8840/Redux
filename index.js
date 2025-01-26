@@ -1,12 +1,13 @@
 import { applyMiddleware, createStore }from 'redux';
+import axios from 'axios';
 import logger from 'redux-logger';
-
-
+import {  thunk } from 'redux-thunk';;
 
 const increment= 'increment';
 const decrement = 'decrement';
 const incrementByvipul = 'incrementByvipul'
-const store = createStore(reducer,applyMiddleware(logger.default));
+const init = 'init';
+const store = createStore(reducer,applyMiddleware(logger.default,thunk));
 
 function reducer (state ={amount:1},action)
 {
@@ -14,19 +15,45 @@ function reducer (state ={amount:1},action)
     // {
     //     return {amount:state.amount+1};
     // }
+      switch(action.type)
+      {
+        case increment:
+                        return {amount:state.amount+1};
+                       
+        case decrement:
+                        return {amount:state.amount-1};
+                   
+        case incrementByvipul:
+                        return {amount:state.amount+ action.payload};
+                      
 
-    if(action.type===incrementByvipul)
-    {
-        return {amount:state.amount+ action.payload};
-    }
-        return state;
+        case init :
+                        return {amount:action.payload}
+                       
+        default :
+                   return state;
+                   
+
+      }    
+        
 }
 
-
+// API CALL
+ async function getUser(dispatch,getState)
+ {
+    const {data} = await axios.get("http://localhost:3000/accounts/1")
+    dispatch(initUser(data.amount))
+ }
+//  getUser();
 // setInterval(()=>{
 //     store.dispatch({type:'increment'});
 // },3000)
+  function initUser(value)
+  {
+      return {type:init,payload:value};
+  }
+setTimeout(() => {
+  store.dispatch(getUser);
+}, 3000);
+    
 
-setInterval(()=>{
-    store.dispatch({type:incrementByvipul,payload:4});
-},3000)
