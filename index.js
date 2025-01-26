@@ -1,6 +1,11 @@
 import { applyMiddleware, createStore }from 'redux';
 import logger from 'redux-logger';
 
+
+
+const increment= 'increment';
+const decrement = 'decrement';
+const incrementByvipul = 'incrementByvipul'
 const store = createStore(reducer,applyMiddleware(logger.default));
 
 function reducer (state ={amount:1},action)
@@ -10,7 +15,7 @@ function reducer (state ={amount:1},action)
     //     return {amount:state.amount+1};
     // }
 
-    if(action.type==='incrementByvipul')
+    if(action.type===incrementByvipul)
     {
         return {amount:state.amount+ action.payload};
     }
@@ -23,5 +28,5 @@ function reducer (state ={amount:1},action)
 // },3000)
 
 setInterval(()=>{
-    store.dispatch({type:'incrementByvipul',payload:4});
+    store.dispatch({type:incrementByvipul,payload:4});
 },3000)
