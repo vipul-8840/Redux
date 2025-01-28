@@ -1,15 +1,20 @@
-import { applyMiddleware, createStore }from 'redux';
+import { applyMiddleware, combineReducers, createStore }from 'redux';
 import axios from 'axios';
 import logger from 'redux-logger';
 import {  thunk } from 'redux-thunk';;
 
 const increment= 'increment';
 const decrement = 'decrement';
-const incrementByvipul = 'incrementByvipul'
+const incrementByAmount= 'incrementByAmount'
 const init = 'init';
-const store = createStore(reducer,applyMiddleware(logger.default,thunk));
+const incBonous = 'bonous/incBonous '
+const store = createStore(combineReducers({
+  account:accountReducer,
+  bonous:bonousReducer
+}),applyMiddleware(logger.default,thunk));
+//Multiple Reducer
 
-function reducer (state ={amount:1},action)
+function accountReducer (state ={amount:1},action)
 {
     // if(action.type==='increment')
     // {
@@ -23,7 +28,7 @@ function reducer (state ={amount:1},action)
         case decrement:
                         return {amount:state.amount-1};
                    
-        case incrementByvipul:
+        case incrementByAmount:
                         return {amount:state.amount+ action.payload};
                       
 
@@ -38,11 +43,27 @@ function reducer (state ={amount:1},action)
         
 }
 
+function bonousReducer(state ={points:0},action )
+{
+  switch(action.type)
+  {
+    case incBonous :
+                    return {points:state.points + 1};
+    case incrementByAmount :
+              if(action.payload>100)
+              return {points:state.points+1};
+      default:
+              return state;
+  }
+}
+
 // API CALL
- async function getUser(dispatch,getState)
+ function getUser(id)
  {
-    const {data} = await axios.get("http://localhost:3000/accounts/1")
-    dispatch(initUser(data.amount))
+     return async(dispatch,getState)=>{
+      const {data} = await axios.get(`http://localhost:3000/accounts/${id}`)
+       dispatch(initUser(data.amount))
+     }
  }
 //  getUser();
 // setInterval(()=>{
@@ -53,7 +74,7 @@ function reducer (state ={amount:1},action)
       return {type:init,payload:value};
   }
 setTimeout(() => {
-  store.dispatch(getUser);
+  store.dispatch({type:incBonous ,payload:100});
 }, 3000);
     
 
