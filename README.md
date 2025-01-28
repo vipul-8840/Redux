@@ -32,29 +32,56 @@ To set up and run the project, follow these steps:
 
 - `increment`: Increments the amount by 1.
 - `decrement`: Decrements the amount by 1.
-- `incrementByvipul`: Increments the amount by a specified value.
+- `incrementByAmount`: Increments the amount by a specified value.
 - `init`: Initializes the amount with a specified value.
+- `incBonus`: Increments the bonus points by 1.
 
-### Reducer
+### Reducers
 
-The reducer function handles the state transitions based on the action types.
+The reducer functions handle the state transitions based on the action types.
 
-#### Parameters:
-- `state`: The current state of the application.
+#### Account Reducer
+
+Handles the state transitions for the account.
+
+##### Parameters:
+- `state`: The current state of the account.
 - `action`: The action dispatched to the store.
 
-#### Example:
+##### Example:
 ```javascript
-function reducer(state = { amount: 1 }, action) {
+function accountReducer(state = { amount: 1 }, action) {
     switch (action.type) {
         case 'increment':
             return { amount: state.amount + 1 };
         case 'decrement':
             return { amount: state.amount - 1 };
-        case 'incrementByvipul':
+        case 'incrementByAmount':
             return { amount: state.amount + action.payload };
         case 'init':
             return { amount: action.payload };
+        default:
+            return state;
+    }
+}
+```
+
+#### Bonus Reducer
+
+Handles the state transitions for the bonus points.
+
+##### Parameters:
+- `state`: The current state of the bonus points.
+- `action`: The action dispatched to the store.
+
+##### Example:
+```javascript
+function bonusReducer(state = { points: 0 }, action) {
+    switch (action.type) {
+        case 'incBonus':
+            return { points: state.points + 1 };
+        case 'incrementByAmount':
+            if (action.payload > 100) return { points: state.points + 1 };
         default:
             return state;
     }
@@ -78,3 +105,4 @@ function getUser(id) {
         dispatch(initUser(data.amount));
     };
 }
+```
