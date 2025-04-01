@@ -85,26 +85,72 @@
 
 // adding payload
 
-import {createStore,applyMiddleware} from 'redux';
-import logger from 'redux-logger';
-const store = createStore(reducer,applyMiddleware(logger.default));
+// import {createStore,applyMiddleware} from 'redux';
+// import logger from 'redux-logger';
+// const store = createStore(reducer,applyMiddleware(logger.default));
+// function reducer(state={amount:1},action)
+// {
+//     if(action.type=='increment' )
+//     {
+//         return {amount:state.amount+1};
+//     }
+//     if(action.type=='incrementByAmount' )
+//     {
+//         return {amount:state.amount+action.payload};
+//     }
+//     if(action.type=='decrement' )
+//     {
+//         return {amount:state.amount-1};
+//     }
+//     return state
+
+// }
+// setInterval(()=>{
+//     store.dispatch({type:'incrementByAmount',payload:4})
+// },2000)
+
+import {createStore,applyMiddleware} from 'redux'
+import logger from 'redux-logger'
+
+const increment='increment';
+const init ='init'
+const decrement ='decrement';
+const incrementByAmount = 'incrementByAmount'
+
+const store = createStore(reducer,applyMiddleware(logger.default))
+
 function reducer(state={amount:1},action)
 {
-    if(action.type=='increment' )
+    if(action.type==increment)
     {
-        return {amount:state.amount+1};
+         return {amount:state.amount+1};
     }
-    if(action.type=='incrementByAmount' )
-    {
-        return {amount:state.amount+action.payload};
-    }
-    if(action.type=='decrement' )
+    if(action.type==decrement)
     {
         return {amount:state.amount-1};
     }
-    return state
+    if(action.type==incrementByAmount){
+        return {amount:state.amount + action.payload}
+    }
+    return state;
+}
 
+function Increment()
+{
+    return {type:increment};
+}
+function Decrement()
+{
+    return {type:decrement};
+}
+function IncrementByAmount(value)
+{
+    return {type:incrementByAmount,payload:value};
+}
+function initA()
+{
+    return 
 }
 setInterval(()=>{
-    store.dispatch({type:'incrementByAmount',payload:4})
+     store.dispatch(IncrementByAmount(5));
 },2000)
