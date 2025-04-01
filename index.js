@@ -68,17 +68,43 @@
 //     store.dispatch({type:'increment'});
 // },2000)
 
+// import {createStore,applyMiddleware} from 'redux';
+// import logger from 'redux-logger'
+// const store = createStore(reducer,applyMiddleware(logger.default));
+// function reducer(state={amount:1},action)
+// {
+//     if(action.type=='increment')
+//     {
+//         return {amount:state.amount+1}
+//     }
+//     return state;
+// }
+// setInterval(()=>{
+//    store.dispatch({type:'increment'})
+// },5000)
+
+// adding payload
+
 import {createStore,applyMiddleware} from 'redux';
-import logger from 'redux-logger'
+import logger from 'redux-logger';
 const store = createStore(reducer,applyMiddleware(logger.default));
 function reducer(state={amount:1},action)
 {
-    if(action.type=='increment')
+    if(action.type=='increment' )
     {
-        return {amount:state.amount+1}
+        return {amount:state.amount+1};
     }
-    return state;
+    if(action.type=='incrementByAmount' )
+    {
+        return {amount:state.amount+action.payload};
+    }
+    if(action.type=='decrement' )
+    {
+        return {amount:state.amount-1};
+    }
+    return state
+
 }
 setInterval(()=>{
-   store.dispatch({type:'increment'})
-},5000)
+    store.dispatch({type:'incrementByAmount',payload:4})
+},2000)
