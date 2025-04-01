@@ -155,63 +155,123 @@
 //      store.dispatch(IncrementByAmount(5));
 // },2000)
 
-import {createStore,applyMiddleware} from 'redux';
-import logger from 'redux-logger';
-import axios from 'axios';
-import {thunk }from 'redux-thunk'
+// import {createStore,applyMiddleware} from 'redux';
+// import logger from 'redux-logger';
+// import axios from 'axios';
+// import {thunk }from 'redux-thunk'
 
-const init ='init';
-const increment = 'increment';
-const decrement ='decrement';
-const incrementByAmount ='incrementByAmount'
-const store = createStore(reducer,applyMiddleware(logger.default,thunk));
+// const init ='init';
+// const increment = 'increment';
+// const decrement ='decrement';
+// const incrementByAmount ='incrementByAmount'
+// const store = createStore(reducer,applyMiddleware(logger.default,thunk));
 // async function getUser()
 // {
 //     const {data} = await axios.get('http://localhost:3000/accounts/2');
 //     console.log(data);
 // }
 // getUser()
-function reducer(state={amount:1},action)
-{
-    switch(action.type)
-    {
-        case init :
-            return {amount:action.payload};
-        case increment :
-        return {amount:state.amount+1};
-        case decrement :
-        return {amount:state.amount-1};
-        case incrementByAmount :
-        return {amount:state.amount+ action.payload};
-        default:
-            return state
-    }
-}
+// function reducer(state={amount:1},action)
+// {
+//     switch(action.type)
+//     {
+//         case init :
+//             return {amount:action.payload};
+//         case increment :
+//         return {amount:state.amount+1};
+//         case decrement :
+//         return {amount:state.amount-1};
+//         case incrementByAmount :
+//         return {amount:state.amount+ action.payload};
+//         default:
+//             return state
+//     }
+// }
 
-function Increment()
-{
-    return {type:increment};
-}
-function Decrement()
-{
-    return {type:decrement};
-}
-function incByAmt(value)
-{
-    return {type:incrementByAmount,payload:value}
-}
-async function getUser(dispatch,getState)
-{
-    const {data} = await axios.get('http://localhost:3000/accounts/2');
-    dispatch(initUser(data.amount))
-}
-function initUser(value)
-{
-    return {type:init,payload:value}
-}
+// function Increment()
+// {
+//     return {type:increment};
+// }
+// function Decrement()
+// {
+//     return {type:decrement};
+// }
+// function incByAmt(value)
+// {
+//     return {type:incrementByAmount,payload:value}
+// }
+// async function getUser(dispatch,getState)
+// {
+//     const {data} = await axios.get('http://localhost:3000/accounts/2');
+//     dispatch(initUser(data.amount))
+// }
+// function initUser(value)
+// {
+//     return {type:init,payload:value}
+// }
 // setInterval(()=>{
 //    store.dispatch(initUser);
 // },3000)
-setTimeout(()=>{
-    store.dispatch(getUser);
-},2000);
+// setTimeout(()=>{
+//     store.dispatch(getUser);
+// },2000);
+
+// import {applyMiddleware, createStore} from "redux";
+// import logger from 'redux-logger';
+// import {thunk} from 'redux-thunk';
+// import axios from "axios";
+
+// const init = 'init';
+// const increment = 'increment';
+// const decrement ='decrement';
+// const incByAmt = 'incrementByAmount'
+// const store = createStore(reducer,applyMiddleware(logger.default,thunk));
+// function reducer(state={amount:1},action)
+// {
+//     switch(action.type)
+//     {
+//         case init :
+//             return {amount:action.payload};
+//         case increment :
+//         return {amount:state.amount+1};
+//         case decrement :
+//         return {amount:state.amount-1};
+//         case incByAmt :
+//         return {amount:state.amount+ action.payload};
+//         default:
+//             return state
+//     }
+// }
+
+// function Increment()
+// {
+//      return {type:increment};
+// }
+// function Decrement()
+// {
+//      return {type:decrement};
+// }
+// function IncrementByAmount(value)
+// {
+//     return {type:incByAmt,payload:value}
+// }
+// function getUser(id)
+// {
+//     return async function (dispatch,getState)
+//     {
+//         const {data}= await axios.get(`http://localhost:3000/accounts/${id}`);
+//         dispatch(initUser(data.amount))
+//     }
+// }
+// function initUser(value)
+// {
+//     return {type:init,payload:value};
+// }
+// setTimeout(()=>{
+//     store.dispatch(getUser(1));
+// },2000)
+// setInterval(() => {
+//      store.dispatch(Increment())
+// }, 2000);
+
+//Multiple Reducer 
