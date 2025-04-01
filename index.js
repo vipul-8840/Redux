@@ -275,3 +275,82 @@
 // }, 2000);
 
 //Multiple Reducer 
+import {applyMiddleware, createStore,combineReducers} from "redux";
+import logger from 'redux-logger';
+import {thunk} from 'redux-thunk';
+import axios from "axios";
+
+const init = 'init';
+const increment = 'increment';
+const decrement ='decrement';
+const incByAmt = 'incrementByAmount'
+const incBonus = 'bonus/increments'
+const store = createStore(combineReducers({
+    account:accountReducer,
+    bonus:bonusReducer
+}),applyMiddleware(logger.default,thunk));
+function accountReducer(state={amount:1},action)
+{
+    switch(action.type)
+    {
+        case init :
+            return {amount:action.payload};
+        case increment :
+        return {amount:state.amount+1};
+        case decrement :
+        return {amount:state.amount-1};
+        case incByAmt :
+        return {amount:state.amount+ action.payload};
+        default:
+            return state
+    }
+}
+function bonusReducer(state={points:0},action)
+{
+     switch(action.type)
+     {
+        case incBonus :
+            return {points:state.points+1};
+        case incByAmt :
+            return {points:state.points + action.payload};
+        default :
+           return state;
+     }
+}
+function Increment()
+{
+     return {type:increment};
+}
+function Decrement()
+{
+     return {type:decrement};
+}
+function IncrementByAmount(value)
+{
+    return {type:incByAmt,payload:value}
+}
+function getUser(id)
+{
+    return async function (dispatch,getState)
+    {
+        const {data}= await axios.get(`http://localhost:3000/accounts/${id}`);
+        dispatch(initUser(data.amount))
+    }
+}
+function initUser(value)
+{
+    return {type:init,payload:value};
+}
+// setTimeout(()=>{
+//     store.dispatch(getUser(1));
+// },2000)
+// setInterval(()=>{
+//     store.dispatch({type:increment})
+// },5000)
+function incrementBonus()
+{
+    return {type:incBonus}
+}
+setTimeout(()=>{
+    store.dispatch(incrementBonus());
+},2000)
